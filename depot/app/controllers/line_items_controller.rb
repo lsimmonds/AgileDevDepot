@@ -1,5 +1,5 @@
 class LineItemsController < ApplicationController
-  before_action :set_line_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_line_item, only: [:show, :edit, :update, :destroy, :decrement]
 
   # GET /line_items
   # GET /line_items.json
@@ -79,6 +79,29 @@ class LineItemsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to redir_dest }
         format.json { head :no_content }
+      end
+    end
+  end
+
+  def decrement
+    @cart = current_cart
+    if @line_item_not_found
+      redirect_to store_url, notice: 'Invalid line item'
+    else
+      @line_item.decrement
+      if @line_item.quantity < 1
+        @line_item.destroy
+      else
+        respond_to do |format|
+          if @line_item.save
+            format.html { redirect_to store_url }
+            format.js { @current_item = @line_item }
+            format.json { render action: 'show', status: :created, location: @line_item }
+          else
+            format.html { render action: 'new' }
+            format.json { render json: @line_item.errors, status: :unprocessable_entity }
+          end
+        end
       end
     end
   end

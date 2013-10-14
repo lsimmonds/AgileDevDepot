@@ -6,6 +6,10 @@ class LineItem < ActiveRecord::Base
     price * quantity
   end
 
+  def decrement
+    self.quantity -= 1 if self.quantity > 0
+  end
+
   private
     def line_item_params
       params.require(:line_item).permit(:cart_id, :product_id)
