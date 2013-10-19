@@ -113,6 +113,7 @@ class LineItemsController < ApplicationController
         @line_item = LineItem.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         logger.error "Attempt to access invalid line item #{params[:id]}"
+        AdminNotifier.not_found_error(params).deliver
         @line_item_not_found = true
       else
         @line_item_not_found = false

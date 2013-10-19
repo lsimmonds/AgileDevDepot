@@ -79,6 +79,7 @@ class CartsController < ApplicationController
         @cart = Cart.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         logger.error "Attempt to access invalid cart #{params[:id]}"
+        AdminNotifier.not_found_error(params).deliver
         @cart_not_found = true
       else
         @cart_not_found = false

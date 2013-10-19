@@ -1,0 +1,48 @@
+<h1>Who Bought <%= @product.title %></h1>
+
+<table>
+<% @product.orders.each do |order| %>
+  <tr>
+    <td>
+      <%= "Order #{order.id}" %>
+    </td>
+    <td>
+      <%= "Shipped to #{order.address}" %>
+    </td>
+  </tr>
+  <tr>
+  <table>
+    <% order.line_items.each do |line_item| %>
+      <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+        <td>
+          <%= "product #{line_item.product.title}" %>
+        </td>
+        <td>
+          <%= "quantity #{line_item.quantity}" %>
+        </td>
+        <td>
+          <%= "price #{line_item.price}" %>
+        </td>
+      </tr>
+    <% end %>
+    <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+      <td span=2>
+        <%= "payment type #{order.pay_type}" %>
+      </td>
+      <td>
+        <%= "total #{order.line_items.map(&:total_price).sum}" %>
+      </td>
+    </tr>
+  </table>
+  </tr>
+  <tr>
+    <td>
+      <%= "Customer #{order.name}" %>
+    </td>
+    <td>
+      <%= "Email #{order.address}" %>
+    </td>
+  </tr>
+<% end %>
+</table>
+

@@ -96,6 +96,7 @@ class ProductsController < ApplicationController
         @product = Product.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         logger.error "Attempt to access invalid product #{params[:id]}"
+        AdminNotifier.not_found_error(params).deliver
         @product_not_found = true
       else
         @product_not_found = false

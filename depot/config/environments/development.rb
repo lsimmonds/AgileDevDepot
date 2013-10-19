@@ -26,4 +26,16 @@ Depot::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  Depot::Application.configure do
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = { address: "smtp.gmail.com",
+                                              port: 993,
+                                            domain: "reachlocal.com",
+                                    authentication: "password",
+                                         user_name: "lsimmonds@reachlocal.com",
+                                          password: "Pleb2ny2",
+                              enable_starttls_auto: true
+    }
+  end
 end

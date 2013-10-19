@@ -33,4 +33,8 @@ Depot::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  Depot::Application.configure do
+    config.action_mailer.delivery_method = :test
+  end
 end
